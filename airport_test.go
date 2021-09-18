@@ -57,6 +57,17 @@ func TestParseWifi(t *testing.T) {
 	log.Println(wifis)
 }
 
+//go test -v -run ^TestParseInfo
+func TestParseInfo(t *testing.T) {
+	a := NewAirport()
+	stdout, _ := a.getInfo()
+	wireless, err := a.parseInfo(stdout)
+	if err != nil {
+		t.Errorf("TestParseInfo(): got -> %v, want: nil", err)
+	}
+	log.Println(wireless)
+}
+
 //go test -v -run ^TestScan
 func TestScan(t *testing.T) {
 	a := NewAirport()
@@ -65,4 +76,15 @@ func TestScan(t *testing.T) {
 		t.Errorf("TestScan(): got -> %v, want: nil", err)
 	}
 	log.Println(wifis)
+}
+
+//go test -v -run ^TestInfo
+func TestInfo(t *testing.T) {
+	a := NewAirport()
+	wireless, err := a.Info()
+	if err != nil {
+		t.Errorf("TestInfo(): got -> %v, want: nil", err)
+	}
+	log.Println(wireless)
+
 }

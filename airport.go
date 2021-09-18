@@ -22,6 +22,25 @@ type Wifi struct {
 	SECURITY string
 }
 
+//Wireless is struct with information the current connection.
+type Wireless struct {
+	AgrCtlRSSI      string
+	AgrExtRSSI      string
+	AgrCtlNoise     string
+	AgrExtNoise     string
+	State           string
+	Mode            string
+	LastTxRate      string
+	MaxRate         string
+	LastAssocStatus string
+	Auth802         string
+	AuthLink        string
+	BSSID           string
+	SSID            string
+	MCS             string
+	Channel         string
+}
+
 //NewAirport return new instance of airport
 func NewAirport() *Airport {
 	return &Airport{}
@@ -99,6 +118,30 @@ func (a *Airport) parseWifi(stdout string) ([]Wifi, error) {
 	return wifis, nil
 }
 
+//parseInfo return wireles current formated.
+func (a *Airport) parseInfo(stdout string) (Wireless, error) {
+	var wireless Wireless
+	lines := strings.Split(strings.TrimSpace(stdout), "\n")
+	wireless = Wireless{
+		AgrCtlRSSI:      lines[0][strings.Index(lines[0], ":")+1:],
+		AgrExtRSSI:      lines[1][strings.Index(lines[1], ":")+1:],
+		AgrCtlNoise:     lines[2][strings.Index(lines[2], ":")+1:],
+		AgrExtNoise:     lines[3][strings.Index(lines[3], ":")+1:],
+		State:           lines[4][strings.Index(lines[4], ":")+1:],
+		Mode:            lines[5][strings.Index(lines[5], ":")+1:],
+		LastTxRate:      lines[6][strings.Index(lines[6], ":")+1:],
+		MaxRate:         lines[7][strings.Index(lines[7], ":")+1:],
+		LastAssocStatus: lines[8][strings.Index(lines[8], ":")+1:],
+		Auth802:         lines[9][strings.Index(lines[9], ":")+1:],
+		AuthLink:        lines[10][strings.Index(lines[10], ":")+1:],
+		BSSID:           lines[11][strings.Index(lines[11], ":")+1:],
+		SSID:            lines[12][strings.Index(lines[12], ":")+1:],
+		MCS:             lines[13][strings.Index(lines[13], ":")+1:],
+		Channel:         lines[14][strings.Index(lines[14], ":")+1:],
+	}
+	return wireless, nil
+}
+
 //Scan execute scanning e return list of wifi.
 func (a *Airport) Scan() ([]Wifi, error) {
 	stdout, err := a.getScan()
@@ -110,4 +153,17 @@ func (a *Airport) Scan() ([]Wifi, error) {
 		return nil, err
 	}
 	return wifis, nil
+}
+
+//Info return status, signal, port ... from current wireless.
+func (a *Airport) Info() (Wireless, error) {
+	stdout, err := a.getInfo()
+	if err != nil {
+		return Wireless{}, err
+	}
+	wireless, err := a.parseInfo(stdout)
+	if err != nil {
+		return Wireless{}, err
+	}
+	return wireless, nil
 }
