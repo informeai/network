@@ -69,8 +69,8 @@ func (a *Airport) run(command, param string) (stdout, stderr string, err error) 
 	return
 }
 
-//getScan return list of networks wifi.
-func (a *Airport) getScan() (string, error) {
+//GetScan return list of networks wifi.
+func (a *Airport) GetScan() (string, error) {
 	stdout, _, err := a.run(cmdAirport, "-s")
 	if err != nil {
 		return "", err
@@ -79,8 +79,8 @@ func (a *Airport) getScan() (string, error) {
 
 }
 
-//getInfo return current wireless status, e.g. signal info, BSSID, port type etc.
-func (a *Airport) getInfo() (string, error) {
+//GetInfo return current wireless status, e.g. signal info, BSSID, port type etc.
+func (a *Airport) GetInfo() (string, error) {
 	stdout, _, err := a.run(cmdAirport, "-I")
 	if err != nil {
 		return "", err
@@ -144,7 +144,7 @@ func (a *Airport) parseInfo(stdout string) (Wireless, error) {
 
 //Scan execute scanning e return list of wifi.
 func (a *Airport) Scan() ([]Wifi, error) {
-	stdout, err := a.getScan()
+	stdout, err := a.GetScan()
 	if err != nil {
 		return nil, err
 	}
@@ -157,7 +157,7 @@ func (a *Airport) Scan() ([]Wifi, error) {
 
 //Info return status, signal, port ... from current wireless.
 func (a *Airport) Info() (Wireless, error) {
-	stdout, err := a.getInfo()
+	stdout, err := a.GetInfo()
 	if err != nil {
 		return Wireless{}, err
 	}

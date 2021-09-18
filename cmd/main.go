@@ -11,7 +11,7 @@ import (
 var usage = `Network:
 Wrapper for network management on MacOS using go language.
 USAGE:
-network [PARAMS]
+network [PARAMS] ARGUMENTS
 PARAMS:
 	--help -h    help commands.
 	--scan -s    scaning by network wireless.
