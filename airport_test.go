@@ -7,7 +7,7 @@ import (
 
 //go test -v -run ^TestNewAirport
 func TestNewAirport(t *testing.T) {
-	a := newAirport()
+	a := NewAirport()
 	if a == nil {
 		t.Error("TestNewAirport(): got -> nil, want: airport{}")
 	}
@@ -17,7 +17,7 @@ func TestNewAirport(t *testing.T) {
 
 //go test -v -run ^TestRun
 func TestRun(t *testing.T) {
-	a := newAirport()
+	a := NewAirport()
 	stdout, stderr, err := a.run(cmdAirport, "-I")
 	if err != nil {
 		t.Errorf("TestRun(): got -> %v, want: nil", err)
@@ -26,22 +26,32 @@ func TestRun(t *testing.T) {
 	log.Println(stderr)
 }
 
-//go test -v -run ^TestScan
-func TestScan(t *testing.T) {
-	a := newAirport()
-	resp, err := a.scan()
+//go test -v -run ^TestGetScan
+func TestGetScan(t *testing.T) {
+	a := NewAirport()
+	resp, err := a.getScan()
 	if err != nil {
-		t.Errorf("TestScan(): got -> %v, want: nil", err)
+		t.Errorf("TestGetScan(): got -> %v, want: nil", err)
 	}
 	log.Println(resp)
 }
 
 //go test -v -run ^TestGetInfo
 func TestGetInfo(t *testing.T) {
-	a := newAirport()
+	a := NewAirport()
 	resp, err := a.getInfo()
 	if err != nil {
 		t.Errorf("TestGetInfo(): got -> %v, want: nil", err)
 	}
 	log.Println(resp)
+}
+
+//go test -v -run ^TestParseWifi
+func TestParseWifi(t *testing.T) {
+	a := NewAirport()
+	wifis, err := a.parseWifi()
+	if err != nil {
+		t.Errorf("TestParseWifi(): got -> %v, want: nil", err)
+	}
+	log.Println(wifis)
 }
