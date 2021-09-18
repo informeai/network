@@ -70,12 +70,8 @@ func (a *Airport) getInfo() (string, error) {
 }
 
 //parseWifi return slice of Wifi parsed.
-func (a *Airport) parseWifi() ([]Wifi, error) {
+func (a *Airport) parseWifi(stdout string) ([]Wifi, error) {
 	var wifis []Wifi
-	stdout, err := a.getScan()
-	if err != nil {
-		return nil, err
-	}
 	lines := strings.Split(stdout, "\n")
 	lines = lines[1:]
 	for _, v := range lines {
@@ -99,6 +95,19 @@ func (a *Airport) parseWifi() ([]Wifi, error) {
 
 		}
 
+	}
+	return wifis, nil
+}
+
+//Scan execute scanning e return list of wifi.
+func (a *Airport) Scan() ([]Wifi, error) {
+	stdout, err := a.getScan()
+	if err != nil {
+		return nil, err
+	}
+	wifis, err := a.parseWifi(stdout)
+	if err != nil {
+		return nil, err
 	}
 	return wifis, nil
 }
