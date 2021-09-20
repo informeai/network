@@ -1,15 +1,25 @@
 package network
 
+import (
+	"bytes"
+	"os/exec"
+	"time"
+)
+
+//var buffers.
+var stdout, stderr bytes.Buffer
+
 //functions for execution of utilitys.
 
 //run execute commands.
-func (a *Airport) run(command, param string) (stdout, stderr string, err error) {
+func run(command, param string) (string, string, error) {
+	var cmdOut, cmdErr string
 	cmd := exec.Command(command, param)
-	cmd.Stdout = &a.stdout
-	cmd.Stderr = &a.stderr
-	err = cmd.Start()
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	err := cmd.Start()
 	if err != nil {
-		return
+		return "", "", err
 	}
 	done := make(chan error, 1)
 	go func() {
@@ -19,8 +29,8 @@ func (a *Airport) run(command, param string) (stdout, stderr string, err error) 
 	case <-time.After(timeDuration):
 		err = cmd.Process.Kill()
 	case err = <-done:
-		stdout = a.stdout.String()
-		stderr = a.stderr.String()
+		cmdOut = stdout.String()
+		cmdErr = stderr.String()
 	}
-	return
+	return cmdOut, cmdErr, nil
 }

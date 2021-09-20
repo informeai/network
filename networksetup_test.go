@@ -13,3 +13,13 @@ func TestNewNetWorkSetup(t *testing.T) {
 	}
 	log.Println(n)
 }
+
+//go test -v -run ^TestListNetWorkServiceOrder
+func TestListNetWorkServiceOrder(t *testing.T) {
+	n := NewNetWorkSetup()
+	stdout, err := n.ListNetWorkServiceOrder()
+	if err != nil {
+		t.Errorf("TestListNetWorkServiceOrder(): got -> %v, want: nil", err)
+	}
+	log.Println(stdout)
+}

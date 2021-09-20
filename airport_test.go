@@ -15,17 +15,6 @@ func TestNewAirport(t *testing.T) {
 
 }
 
-//go test -v -run ^TestRun
-func TestRun(t *testing.T) {
-	a := NewAirport()
-	stdout, stderr, err := a.run(cmdAirport, "-I")
-	if err != nil {
-		t.Errorf("TestRun(): got -> %v, want: nil", err)
-	}
-	log.Println(stdout)
-	log.Println(stderr)
-}
-
 //go test -v -run ^TestGetScan
 func TestGetScan(t *testing.T) {
 	a := NewAirport()

@@ -2,9 +2,7 @@ package network
 
 import (
 	"bytes"
-	"os/exec"
 	"strings"
-	"time"
 )
 
 //Airport is utility for manager wifi-points.
@@ -46,32 +44,9 @@ func NewAirport() *Airport {
 	return &Airport{}
 }
 
-//run execute commands.
-func (a *Airport) run(command, param string) (stdout, stderr string, err error) {
-	cmd := exec.Command(command, param)
-	cmd.Stdout = &a.stdout
-	cmd.Stderr = &a.stderr
-	err = cmd.Start()
-	if err != nil {
-		return
-	}
-	done := make(chan error, 1)
-	go func() {
-		done <- cmd.Wait()
-	}()
-	select {
-	case <-time.After(timeDuration):
-		err = cmd.Process.Kill()
-	case err = <-done:
-		stdout = a.stdout.String()
-		stderr = a.stderr.String()
-	}
-	return
-}
-
 //GetScan return list of networks wifi.
 func (a *Airport) GetScan() (string, error) {
-	stdout, _, err := a.run(cmdAirport, "-s")
+	stdout, _, err := run(cmdAirport, "-s")
 	if err != nil {
 		return "", err
 	}
@@ -81,7 +56,7 @@ func (a *Airport) GetScan() (string, error) {
 
 //GetInfo return current wireless status, e.g. signal info, BSSID, port type etc.
 func (a *Airport) GetInfo() (string, error) {
-	stdout, _, err := a.run(cmdAirport, "-I")
+	stdout, _, err := run(cmdAirport, "-I")
 	if err != nil {
 		return "", err
 	}
