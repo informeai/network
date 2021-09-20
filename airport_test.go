@@ -29,7 +29,7 @@ func TestRun(t *testing.T) {
 //go test -v -run ^TestGetScan
 func TestGetScan(t *testing.T) {
 	a := NewAirport()
-	resp, err := a.getScan()
+	resp, err := a.GetScan()
 	if err != nil {
 		t.Errorf("TestGetScan(): got -> %v, want: nil", err)
 	}
@@ -39,7 +39,7 @@ func TestGetScan(t *testing.T) {
 //go test -v -run ^TestGetInfo
 func TestGetInfo(t *testing.T) {
 	a := NewAirport()
-	resp, err := a.getInfo()
+	resp, err := a.GetInfo()
 	if err != nil {
 		t.Errorf("TestGetInfo(): got -> %v, want: nil", err)
 	}
@@ -49,7 +49,7 @@ func TestGetInfo(t *testing.T) {
 //go test -v -run ^TestParseWifi
 func TestParseWifi(t *testing.T) {
 	a := NewAirport()
-	stdout, _ := a.getScan()
+	stdout, _ := a.GetScan()
 	wifis, err := a.parseWifi(stdout)
 	if err != nil {
 		t.Errorf("TestParseWifi(): got -> %v, want: nil", err)
@@ -60,7 +60,7 @@ func TestParseWifi(t *testing.T) {
 //go test -v -run ^TestParseInfo
 func TestParseInfo(t *testing.T) {
 	a := NewAirport()
-	stdout, _ := a.getInfo()
+	stdout, _ := a.GetInfo()
 	wireless, err := a.parseInfo(stdout)
 	if err != nil {
 		t.Errorf("TestParseInfo(): got -> %v, want: nil", err)
