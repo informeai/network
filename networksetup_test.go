@@ -23,3 +23,23 @@ func TestListNetWorkServiceOrder(t *testing.T) {
 	}
 	log.Println(stdout)
 }
+
+//go test -v -run ^TestListAllNetWorkServices
+func TestListAllNetWorkServices(t *testing.T) {
+	n := NewNetWorkSetup()
+	stdout, err := n.ListAllNetWorkServices()
+	if err != nil {
+		t.Errorf("TestListAllNetWorkServices(): got -> %v, want: nil", err)
+	}
+	log.Println(stdout)
+}
+
+//go test -v -run ^TestListAllHardwarePorts
+func TestListAllHardwarePorts(t *testing.T) {
+	n := NewNetWorkSetup()
+	stdout, err := n.ListAllHardwarePorts()
+	if err != nil {
+		t.Errorf("TestListAllHardwarePorts(): got -> %v, want: nil", err)
+	}
+	log.Println(stdout)
+}

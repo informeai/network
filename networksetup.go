@@ -16,3 +16,21 @@ func (n *NetWorkSetup) ListNetWorkServiceOrder() (string, error) {
 	}
 	return stdout, nil
 }
+
+//ListAllNetWorkServices
+func (n *NetWorkSetup) ListAllNetWorkServices() (string, error) {
+	stdout, _, err := run(cmdNetWorkSetup, "-listallnetworkservices")
+	if err != nil {
+		return "", err
+	}
+	return stdout, nil
+}
+
+//ListAllHardwarePorts
+func (n *NetWorkSetup) ListAllHardwarePorts() (string, error) {
+	stdout, _, err := run(cmdNetWorkSetup, "-listallhardwareports")
+	if err != nil {
+		return "", err
+	}
+	return stdout, nil
+}
